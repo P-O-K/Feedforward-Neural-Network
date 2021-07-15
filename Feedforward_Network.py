@@ -96,6 +96,7 @@ class FeedForwardNetwork( object ):
 
 
     def testNetwork( self, testData, testLabels ):
+        print( 'Running Tests....' )
         compareArrays = lambda x, y: ( x == y ).all( )
         amountCorrect = 0
         for i in range( len( testData ) ):
