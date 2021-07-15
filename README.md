@@ -6,7 +6,7 @@ General Info:
     Learning rate set to 'None' will uses backProbagation error as rate: Nears ZERO as error decreases.
     Learning rate can have a MAX &or MIN amount fitted to it: (MAX_LEARNING_RATE & MIN_LEARNING_RATE)
     PROGRESS_PERCENT = N: Shows progress report everny N%: Set to 0 to ignore report.
-    epoc represents how many times an array will be looped over: eg.. 0.5, 1.0, 100, 2500
+    epoc represents how many times an array will be looped over: eg.. len( data )* ?( 0.5, 1.0, 100, 2500 )
 
 How to use:
 
