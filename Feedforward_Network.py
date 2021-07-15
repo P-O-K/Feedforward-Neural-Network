@@ -10,17 +10,6 @@ class FeedForwardNetwork( object ):
     MIN_LEARNING_RATE = None;
     LEARNING_RATE = None;
     PROGRESS_PERCENT = 10;
-
-    
-    def getLearningRate( self, ERROR ):
-        if not self.LEARNING_RATE:
-            if self.MAX_LEARNING_RATE:
-                if ERROR > self.MAX_LEARNING_RATE: return self.MAX_LEARNING_RATE;
-            if self.MIN_LEARNING_RATE:
-                if ERROR < self.MIN_LEARNING_RATE: return self.MIN_LEARNING_RATE;
-            return ERROR
-        return self.LEARNING_RATE
-            
     
 
     def __init__( self, shape:list ):
@@ -83,6 +72,16 @@ class FeedForwardNetwork( object ):
         methods = { 'sigmoid': lambda x: x *( 1 -x ),
                     'tanh':    lambda x: 1 - x**2 }
         return methods[ self.ACTIVATION_METHOD ]( x )
+    
+    
+    def getLearningRate( self, ERROR ):
+        if not self.LEARNING_RATE:
+            if self.MAX_LEARNING_RATE:
+                if ERROR > self.MAX_LEARNING_RATE: return self.MAX_LEARNING_RATE;
+            if self.MIN_LEARNING_RATE:
+                if ERROR < self.MIN_LEARNING_RATE: return self.MIN_LEARNING_RATE;
+            return ERROR
+        return self.LEARNING_RATE
 
 
 
