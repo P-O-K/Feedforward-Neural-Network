@@ -74,6 +74,7 @@ class FeedForwardNetwork( object ):
         return methods[ self.ACTIVATION_METHOD ]( x )
     
     
+    
     def getLearningRate( self, ERROR ):
         if not self.LEARNING_RATE:
             if self.MAX_LEARNING_RATE:
@@ -90,6 +91,7 @@ class FeedForwardNetwork( object ):
             print( f'Progress Update: { arg1 /maxIterations :.1%}' )
 
 
+            
     def predictor( self, input_data ):
         return self.feedForward( input_data )[ -1 ]
 
