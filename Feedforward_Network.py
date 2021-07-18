@@ -1,3 +1,4 @@
+
 import numpy as np
 import os
 
@@ -128,20 +129,3 @@ class FeedForwardNetwork( object ):
         else:
             print( f'File: {filePath} does\'nt exist.' )
             return False
-
-
-
-# -> LOAD DATAFRAME
-DATAFRAME = np.load( "mnist.npz" )
-
-# -> CREATE NETWORK       w/ shape = [ 784, 16, 16, 10 ]
-FFN = FeedForwardNetwork( shape=[ len( DATAFRAME['training_images'][ 0 ] ), 16, 16, 10 ] )
-
-# -> TRAIN NETWORK
-FFN.arrayHandle( DATAFRAME['training_images'], DATAFRAME['training_labels'], randomize=False, epoc=0.2 )
-
-# -> TEST NETWORK
-FFN.testNetwork( DATAFRAME['test_images'], DATAFRAME['test_labels'] )
-
-# -> SAVE WEIGHTS
-FFN.saveWeights( 'fileName' )
