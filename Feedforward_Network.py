@@ -27,7 +27,7 @@ class FeedForwardNetwork( object ):
         for ix in range( maxIterations +1 ):
             IDX = np.random.permutation( len( inputArray ) ) if randomize else np.arange( len( inputArray ) )
             self.runInstance( inputArray[ IDX[ ix %len( IDX ) ] ], labelArray[ IDX[ ix %len( IDX ) ] ] )
-            if self.PROGRESS_PERCENT > 0: self.progressReport( ix, maxIterations )
+            if self.PROGRESS_PERCENT > 0: self.progressReport( ix, maxIterations, self.PROGRESS_PERCENT )
 
 
 
@@ -40,20 +40,20 @@ class FeedForwardNetwork( object ):
     def feedForward( self, input_data ):
         datarray = [ np.array( input_data ) ]
         for w, b in zip( self.weights, self.biases ):
-            datarray.append( self.activate( np.matmul( w, datarray[ -1 ] ) +b ) )
+            datarray.append( self.activate( np.matmul( w, datarray[ -1 ] ) +b, self.ACTIVATION_METHOD ) )
         return datarray
 
 
 
     def backPropagation( self, datarray, label_data ):
         local_error = label_data -datarray[ -1 ]
-        deltas = [ local_error *( self.derivative( datarray[ -1 ] ) ) ]
-
-        LR = self.getLearningRate( np.mean( np.abs( local_error ) ) )
+        deltas = [ local_error *( self.derivative( datarray[ -1 ], self.ACTIVATION_METHOD ) ) ]
+        
+        LR = self.getLearningRate( self.LEARNING_RATE, self.MAX_LEARNING_RATE, self.MIN_LEARNING_RATE, np.mean( np.abs( local_error ) ) )
 
         for da, w in zip( datarray[ 1:-1 ][ ::-1 ], self.weights[ 1: ][ ::-1 ] ):
             local_error = np.matmul( w.T, deltas[ -1 ] )
-            deltas.append( local_error *self.derivative( da ) )
+            deltas.append( local_error *self.derivative( da, self.ACTIVATION_METHOD ) )
 
         for da, de, w, b in zip( datarray[ :-1 ][ ::-1 ], deltas, self.weights[ ::-1 ],	 self.biases[ ::-1 ] ):
             w += np.matmul( de, da.T ) *LR
@@ -61,44 +61,46 @@ class FeedForwardNetwork( object ):
 
 
 
-    def activate( self, x ):
+    @staticmethod
+    def activate( x, A_TYPE ):
         methods = { 'sigmoid': lambda x: 1 /( 1 +np.exp( -x ) ),
                     'tanh':    lambda x: np.tanh( x ) }
-        return methods[ self.ACTIVATION_METHOD ]( x )
+        return methods[ A_TYPE ]( x )
 
 
 
-    def derivative( self, x ):
+    @staticmethod
+    def derivative( x, A_TYPE ):
         methods = { 'sigmoid': lambda x: x *( 1 -x ),
                     'tanh':    lambda x: 1 - x**2 }
-        return methods[ self.ACTIVATION_METHOD ]( x )
-    
-    
-    
-    def getLearningRate( self, ERROR ):
-        if not self.LEARNING_RATE:
-            if self.MAX_LEARNING_RATE:
-                if ERROR > self.MAX_LEARNING_RATE: return self.MAX_LEARNING_RATE;
-            if self.MIN_LEARNING_RATE:
-                if ERROR < self.MIN_LEARNING_RATE: return self.MIN_LEARNING_RATE;
+        return methods[ A_TYPE ]( x )
+
+
+
+    @staticmethod
+    def getLearningRate( LR, MXLR, MNLR, ERROR ):
+        if not LR:
+            if MXLR and ERROR > MXLR: return MXLR;
+            if MNLR and ERROR < MNLR: return MNLR;
             return ERROR
-        return self.LEARNING_RATE
+        return LR
 
 
 
-    def progressReport( self, arg1, maxIterations ):
-        if arg1 %int( np.ceil( ( maxIterations /100 ) *self.PROGRESS_PERCENT ) ) == 0:
+    @staticmethod
+    def progressReport( arg1, maxIterations, percent ):
+        if arg1 %int( np.ceil( ( maxIterations /100 ) *percent ) ) == 0:
             print( f'Progress Update: { arg1 /maxIterations :.1%}' )
 
 
-            
+
     def predictor( self, input_data ):
         return self.feedForward( input_data )[ -1 ]
 
 
 
     def testNetwork( self, testData, testLabels ):
-        print( 'Running Tests....' )
+        print( 'Running Test...' )
         compareArrays = lambda x, y: ( x == y ).all( )
         amountCorrect = 0
         for i in range( len( testData ) ):
