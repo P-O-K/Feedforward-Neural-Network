@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 
-class FeedForwardNetwork( object ):
+class FeedforwardNetwork( object ):
     
     ACTIVATION_METHOD:str   = 'sigmoid';
     MAX_LEARNING_RATE:float = 1.0;
@@ -13,7 +13,7 @@ class FeedForwardNetwork( object ):
     
 
     def __init__( self, shape:list ) -> None:
-        super( FeedForwardNetwork, self ).__init__( )
+        super( FeedforwardNetwork, self ).__init__( )
         shapeWeight = [ ( a, b ) for a, b in zip( shape[ 1: ], shape[ :-1 ] ) ]
         self.weights = [ np.random.standard_normal( s )/s[ 1 ]**0.5 for s in shapeWeight ]
         self.biases = [ np.random.standard_normal( ( s, 1 ) ) for s in shape[ 1: ] ]
@@ -136,10 +136,10 @@ class FeedForwardNetwork( object ):
 DATAFRAME = np.load( "mnist.npz" )
 
 # -> CREATE NETWORK       w/ shape = [ 784, 16, 16, 10 ]
-FFN = FeedForwardNetwork( shape=[ len( DATAFRAME['training_images'][ 0 ] ), 16, 16, 10 ] )
+FFN = FeedforwardNetwork( shape=[ len( DATAFRAME['training_images'][ 0 ] ), 16, 16, 10 ] )
 
 # -> TRAIN NETWORK
-FFN.arrayHandle( DATAFRAME['training_images'], DATAFRAME['training_labels'], randomize=False, epoc=0.2 )
+FFN.arrayHandle( DATAFRAME['training_images'], DATAFRAME['training_labels'], randomize=False, epoc=1 )
 
 # -> TEST NETWORK
 FFN.testNetwork( DATAFRAME['test_images'], DATAFRAME['test_labels'] )
