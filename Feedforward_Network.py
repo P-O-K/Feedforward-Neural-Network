@@ -131,15 +131,15 @@ class FeedforwardNetwork( object ):
             return False
 
 
+if __name__ == '__main__':
+    # -> LOAD DATAFRAME
+    DATAFRAME = np.load( "mnist.npz" )
 
-# -> LOAD DATAFRAME
-DATAFRAME = np.load( "mnist.npz" )
+    # -> CREATE NETWORK       w/ shape = [ 784, 16, 16, 10 ]
+    FFN = FeedforwardNetwork( shape=[ len( DATAFRAME['training_images'][ 0 ] ), 16, 16, 10 ] )
 
-# -> CREATE NETWORK       w/ shape = [ 784, 16, 16, 10 ]
-FFN = FeedforwardNetwork( shape=[ len( DATAFRAME['training_images'][ 0 ] ), 16, 16, 10 ] )
+    # -> TRAIN NETWORK
+    FFN.arrayHandle( DATAFRAME['training_images'], DATAFRAME['training_labels'], randomize=False, epoc=1 )
 
-# -> TRAIN NETWORK
-FFN.arrayHandle( DATAFRAME['training_images'], DATAFRAME['training_labels'], randomize=False, epoc=1 )
-
-# -> TEST NETWORK
-FFN.testNetwork( DATAFRAME['test_images'], DATAFRAME['test_labels'] )
+    # -> TEST NETWORK
+    FFN.testNetwork( DATAFRAME['test_images'], DATAFRAME['test_labels'] )
