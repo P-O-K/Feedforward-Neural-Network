@@ -5,11 +5,11 @@ import os
 
 class FeedforwardNetwork( object ):
     
-    ACTIVATION_METHOD:str   = 'sigmoid';
-    MAX_LEARNING_RATE:float = 1.0;
-    MIN_LEARNING_RATE:float = None;
-    LEARNING_RATE:float     = None;
-    PROGRESS_PERCENT:int    = 10;
+    ACTIVATION_METHOD :str   = 'sigmoid';
+    MAX_LEARNING_RATE :float = 1.0;
+    MIN_LEARNING_RATE :float = None;
+    LEARNING_RATE     :float = None;
+    PROGRESS_PERCENT  :int   = 10;
     
 
     def __init__( self, shape:list ) -> None:
