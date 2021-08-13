@@ -112,14 +112,14 @@ class FeedforwardNetwork( object ):
 
 
 
-    def saveWeights( self, fileName:str='FFN_Weights', location:str=os.getcwd( ) ) -> None:
+    def saveWeights( self, fileName:str='FFN_Weights.npy', location:str=os.getcwd( ) ) -> None:
         saveData = np.append( self.weights, self.biases )
         np.save( location +'\\' +fileName, saveData )
 
 
 
-    def loadWeights( self, fileName:str='FFN_Weights', ext:str='.npy', location:str=os.getcwd( ) ) -> bool:
-        filePath = location +'\\' +fileName +ext
+    def loadWeights( self, fileName:str='FFN_Weights.npy', location:str=os.getcwd( ) ) -> bool:
+        filePath = location +'\\' +fileName
         if os.path.isfile( filePath ):
             loadedData = np.load( filePath )
             splitDataLength = len( loadedData )//2 
