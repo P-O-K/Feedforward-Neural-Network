@@ -10,8 +10,7 @@ General Info:
 
 How to use:
 
-    # Expected input data format: [ N(2):1 ] -> eg..[ [0], 
-                                                      [0] ];
+    Expected input data numpy format: eg.. numpy.zeros( ( 10, 1 ) )
 
 # XOR Problem Example:
         # -> CREATE DATASET & LABELS
