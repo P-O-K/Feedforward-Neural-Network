@@ -39,4 +39,4 @@ How to use:
         FFN.testNetwork( DATAFRAME['test_images'], DATAFRAME['test_labels'] )
         
         # -> SAVE WEIGHTS
-        FFN.saveWeights( 'fileName' )
+        FFN.saveWeights( 'fileName.npy' )
